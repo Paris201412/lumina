@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Lifestyle | Create Your Glow</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="star-glow bg-glow-1"></div>
+    <div class="star-glow bg-glow-2"></div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area" onclick="navigateTo('home')">
+                <svg class="star-logo" viewBox="0 0 100 100" width="32" height="32">
+                    <path d="M50 0 L55 35 L90 35 L60 55 L75 90 L50 65 L25 90 L40 55 L10 35 L45 35 Z" fill="url(#starGrad)" />
+                    <defs>
+                        <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#E2D4F0" />
+                            <stop offset="100%" stop-color="#FFFFFF" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="brand-name">LUMINA</span>
+            </div>
+            
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link active" onclick="navigateTo('home')">Home</a>
+                <a href="#fashion" class="nav-link" onclick="navigateTo('fashion')">Fashion</a>
+                <a href="#beauty" class="nav-link" onclick="navigateTo('beauty')">Beauty</a>
+                <a href="#accessories" class="nav-link" onclick="navigateTo('accessories')">Accessories</a>
+                <a href="#school-supplies" class="nav-link" onclick="navigateTo('school-supplies')">School Supplies</a>
+                <a href="#plushies" class="nav-link" onclick="navigateTo('plushies')">Plushies</a>
+                <a href="#self-care" class="nav-link" onclick="navigateTo('self-care')">Self-Care</a>
+                <a href="#about" class="nav-link" onclick="navigateTo('about')">About</a>
+                <a href="#contact" class="nav-link" onclick="navigateTo('contact')">Contact</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="cart-icon-wrapper" onclick="toggleCart()">
+                    <svg class="cart-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        
+        <section id="page-home" class="page-view active">
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <h1>Create Your Glow</h1>
+                    <p>Discover a curated collection designed to bring soft celestial light, comfort, and creative luxury to your everyday lifestyle.</p>
+                    <button class="btn btn-primary" onclick="navigateTo('fashion')">Explore Collections</button>
+                </div>
+            </div>
+
+            <section class="section-container">
+                <h2 class="section-title">Shop By Category</h2>
+                <div class="categories-grid">
+                    <div class="category-card" onclick="navigateTo('fashion')">
+                        <div class="category-img-placeholder" style="background: linear-gradient(135deg, #E2D4F0 0%, #F6EFF7 100%);">
+                            <span>Apparel</span>
+                        </div>
+                        <h3>Fashion</h3>
+                    </div>
+                    <div class="category-card" onclick="navigateTo('beauty')">
+                        <div class="category-img-placeholder" style="background: linear-gradient(135deg, #F9E6E6 0%, #FFFFFF 100%);">
+                            <span>Cosmetics</span>
+                        </div>
+                        <h3>Beauty</h3>
+                    </div>
+                    <div class="category-card" onclick="navigateTo('accessories')">
+                        <div class="category-img-placeholder" style="background: linear-gradient(135deg, #EAEAEA 0%, #D8D3DC 100%);">
+                            <span>Jewelry & Details</span>
+                        </div>
+                        <h3>Accessories</h3>
+                    </div>
+                    <div class="category-card" onclick="navigateTo('school-supplies')">
+                        <div class="category-img-placeholder" style="background: linear-gradient(135deg, #F0F3F8 0%, #E2D4F0 100%);">
+                            <span>Stationery</span>
+                        </div>
+                        <h3>School Supplies</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-container bg-subtle-shelf">
+                <h2 class="section-title">Featured Additions</h2>
+                <div class="products-grid" id="featured-products-container">
+                    </div>
+            </section>
+
+            <section
