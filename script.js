@@ -114,12 +114,20 @@ const PRODUCT_DATA = [
 
 let shoppingCart = [];
 
+// --- Lifecycle Initialization Engine ---
 document.addEventListener("DOMContentLoaded", () => {
     initializeHomeGridDisplay();
     setupInterfaceEventHandlers();
-    handleUrlRoutingCheck();
+    
+    // Check url on open, if empty set default home hash
+    if (!window.location.hash) {
+        window.location.hash = '#home';
+    } else {
+        handleUrlRoutingCheck();
+    }
 });
 
+// --- Dynamic Grid Rendering Protocols ---
 function createProductCardMarkup(product) {
     const isSoon = product.badge === "Coming Soon";
     
@@ -169,7 +177,13 @@ function initializeHomeGridDisplay() {
     if(bestTarget) bestTarget.innerHTML = bestItems.map(createProductCardMarkup).join('');
 }
 
+// --- App Navigation Routing Logic ---
 function navigateTo(targetRoute) {
+    // Simply update the URL hash. The hashchange listener handles the layout view change.
+    window.location.hash = targetRoute;
+}
+
+function renderPageView(targetRoute) {
     const routesMap = {
         'home': { type: 'static', elementId: 'page-home' },
         'about': { type: 'static', elementId: 'page-about' },
@@ -184,25 +198,37 @@ function navigateTo(targetRoute) {
 
     const targetConfig = routesMap[targetRoute] || routesMap['home'];
 
-    document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
+    // Hide all view panels
+    document.querySelectorAll('.page-view').forEach(view => {
+        view.classList.remove('active');
+    });
     
+    // Display targeted panel view correctly
     if (targetConfig.type === 'static') {
-        document.getElementById(targetConfig.elementId).classList.add('active');
+        const targetEl = document.getElementById(targetConfig.elementId);
+        if (targetEl) targetEl.classList.add('active');
     } else if (targetConfig.type === 'catalog') {
-        document.getElementById('current-catalog-title').innerText = targetConfig.title;
-        document.getElementById('current-catalog-desc').innerText = targetConfig.desc;
+        const titleEl = document.getElementById('current-catalog-title');
+        const descEl = document.getElementById('current-catalog-desc');
+        const containerEl = document.getElementById('catalog-products-container');
+        
+        if (titleEl) titleEl.innerText = targetConfig.title;
+        if (descEl) descEl.innerText = targetConfig.desc;
         
         const filteredProducts = PRODUCT_DATA.filter(p => p.category === targetRoute);
-        document.getElementById('catalog-products-container').innerHTML = filteredProducts.map(createProductCardMarkup).join('');
+        if (containerEl) containerEl.innerHTML = filteredProducts.map(createProductCardMarkup).join('');
         
-        document.getElementById('page-catalog').classList.add('active');
+        const catalogPageEl = document.getElementById('page-catalog');
+        if (catalogPageEl) catalogPageEl.classList.add('active');
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
+    // Update main header active navigation styles links
     document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.remove('active');
-        if(link.getAttribute('href') === `#${targetRoute}`) {
+        // Find links targeting onclick text
+        if(link.getAttribute('onclick') && link.getAttribute('onclick').includes(`'${targetRoute}'`)) {
             link.classList.add('active');
         }
     });
@@ -211,6 +237,7 @@ function navigateTo(targetRoute) {
     document.querySelector('.mobile-nav-toggle').classList.remove('open');
 }
 
+// --- Dynamic Shopping Cart Transaction Handlers ---
 function toggleCart() {
     document.querySelector('.cart-drawer').classList.toggle('open');
     document.querySelector('.cart-drawer-overlay').classList.toggle('open');
@@ -309,8 +336,9 @@ function setupInterfaceEventHandlers() {
 function handleUrlRoutingCheck() {
     const currentHash = window.location.hash.replace('#', '');
     if(currentHash) {
-        navigateTo(currentHash);
+        renderPageView(currentHash);
     }
 }
 
+// Watch for manual URL changes and hash navigation actions
 window.addEventListener('hashchange', handleUrlRoutingCheck);

@@ -34,15 +34,15 @@
             </button>
 
             <nav class="nav-menu">
-                <a href="#home" class="nav-link active" onclick="navigateTo('home')">Home</a>
-                <a href="#fashion" class="nav-link" onclick="navigateTo('fashion')">Fashion</a>
-                <a href="#beauty" class="nav-link" onclick="navigateTo('beauty')">Beauty</a>
-                <a href="#accessories" class="nav-link" onclick="navigateTo('accessories')">Accessories</a>
-                <a href="#school-supplies" class="nav-link" onclick="navigateTo('school-supplies')">School Supplies</a>
-                <a href="#plushies" class="nav-link" onclick="navigateTo('plushies')">Plushies</a>
-                <a href="#self-care" class="nav-link" onclick="navigateTo('self-care')">Self-Care</a>
-                <a href="#about" class="nav-link" onclick="navigateTo('about')">About</a>
-                <a href="#contact" class="nav-link" onclick="navigateTo('contact')">Contact</a>
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#fashion" class="nav-link">Fashion</a>
+                <a href="#beauty" class="nav-link">Beauty</a>
+                <a href="#accessories" class="nav-link">Accessories</a>
+                <a href="#school-supplies" class="nav-link">School Supplies</a>
+                <a href="#plushies" class="nav-link">Plushies</a>
+                <a href="#self-care" class="nav-link">Self-Care</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
             </nav>
 
             <div class="header-actions">
@@ -103,4 +103,129 @@
                     </div>
             </section>
 
-            <section
+            <section class="section-container">
+                <h2 class="section-title">Best Sellers</h2>
+                <div class="products-grid" id="best-sellers-container">
+                    </div>
+            </section>
+
+            <section class="newsletter-section">
+                <div class="newsletter-content">
+                    <h2>Join the Luminary Community</h2>
+                    <p>Subscribe to receive early access to new drops, exclusive aesthetic inspiration, and hidden updates.</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Welcome to the inner circle of light!'); this.reset();">
+                        <input type="email" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn btn-secondary">Subscribe</button>
+                    </form>
+                </div>
+            </section>
+        </section>
+
+        <section id="page-catalog" class="page-view section-container">
+            <h1 class="catalog-title" id="current-catalog-title">Collection</h1>
+            <p class="catalog-subtitle" id="current-catalog-desc">Browse our premium lifestyle selections.</p>
+            <div class="products-grid" id="catalog-products-container">
+                </div>
+        </section>
+
+        <section id="page-about" class="page-view section-container">
+            <div class="about-wrapper">
+                <div class="about-text">
+                    <h1>Our Story</h1>
+                    <p class="premium-lead">Lumina was founded by Paris Botchway at just 12 years old, built on a vision that everyday items should inspire a sense of wonder and calm.</p>
+                    <p>Drawing aesthetic vision from serene lavender dusk skies, clean cosmic lines, and minimalist design structures, we engineer high-end artifacts crossing fashion, utility, and self-care space.</p>
+                    <p>We craft for the dreamers, creators, and bold spirits who demand both premium tactile luxury and soft, comforting warmth from the physical elements they surround themselves with.</p>
+                </div>
+                <div class="about-graphic-placeholder">
+                    <div class="floating-star-display">⭐</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-contact" class="page-view section-container">
+            <div class="contact-grid">
+                <div>
+                    <h1>Get In Touch</h1>
+                    <p>Have questions regarding your order, collaborative pursuits, or sizing specifications? Connect with our dedicated concierge team.</p>
+                    <div class="contact-info-block">
+                        <p><strong>Inquiries:</strong> support@lumina-lifestyle.internal</p>
+                        <p><strong>Press Relations:</strong> community@lumina-lifestyle.internal</p>
+                    </div>
+                </div>
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('Message successfully transmitted to Lumina HQ.'); this.reset();">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>How can we assist you?</label>
+                        <textarea rows="6" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="cart-drawer-overlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        <div class="cart-items-container" id="cart-items">
+            <p class="empty-cart-text">Your collection is currently empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Subtotal</span>
+                <span id="cart-subtotal-val">$0.00</span>
+            </div>
+            <button class="btn btn-primary checkout-btn" onclick="alert('Checkout integration simulated. Thank you for shopping with Lumina!')" disabled>Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-brand-col">
+                <span class="brand-name">LUMINA</span>
+                <p>Curating clean cosmic luxury for everyday lifestyle spaces.</p>
+            </div>
+            <div>
+                <h4>Explore</h4>
+                <ul class="footer-links">
+                    <li><a href="#fashion">Apparel Line</a></li>
+                    <li><a href="#beauty">Beauty Artifacts</a></li>
+                    <li><a href="#school-supplies">Stationery Tools</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact Support</a></li>
+                    <li><a href="#home">Privacy Matrix</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Connect</h4>
+                <div class="social-row">
+                    <a href="#" aria-label="Instagram">IG</a>
+                    <a href="#" aria-label="Pinterest">PIN</a>
+                    <a href="#" aria-label="TikTok">TK</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 LUMINA Lifestyle Ecosystem. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>
