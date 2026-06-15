@@ -5,11 +5,10 @@ const PRODUCT_DATA = [
         name: "Oversized Lumina Hoodie",
         category: "fashion",
         basePrice: 88.00,
-        // Configurable sizing prices if you choose to set them later
         prices: { "S": 88.00, "M": 88.00, "L": 92.00, "XL": 95.00 },
         visual: '<img src="./hoodie.jpg" alt="Lumina Hoodie" style="width:100%; height:100%; object-fit:cover;">', 
         badge: "",
-        variants: { type: "color", options: ["Lavender", "Cream", "Black"] },
+        variants: { type: "Color", options: ["Lavender", "Cream", "Black"] },
         hasSizes: true,
         isBestSeller: true,
         isFeatured: true
@@ -22,7 +21,7 @@ const PRODUCT_DATA = [
         prices: { "S": 74.00, "M": 74.00, "L": 78.00, "XL": 82.00 },
         visual: '<img src="./pants.jpg" alt="Lounge Pants" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: { type: "color", options: ["Lavender", "Cream", "Black"] },
+        variants: { type: "Color", options: ["Lavender", "Cream", "Black"] },
         hasSizes: true,
         isBestSeller: false,
         isFeatured: true
@@ -35,7 +34,7 @@ const PRODUCT_DATA = [
         visual: '<img src="./lipgloss.jpg" alt="Lumina Lip Gloss" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
         variants: { 
-            type: "formula", 
+            type: "Formula", 
             options: [
                 "Dream Glow ✨ Clear gloss", 
                 "Lavender Kiss 💜 Sheer lavender tint", 
@@ -53,7 +52,7 @@ const PRODUCT_DATA = [
         basePrice: 95.00,
         visual: '<img src="./perfume.jpg" alt="Stardust Perfume" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: { type: "color", options: ["Lavender", "Cream", "Black"] },
+        variants: { type: "Color", options: ["Lavender", "Cream", "Black"] },
         hasSizes: false,
         isBestSeller: false,
         isFeatured: true
@@ -65,20 +64,20 @@ const PRODUCT_DATA = [
         basePrice: 16.00,
         visual: '<img src="./scrunchie.jpg" alt="Lumina Scrunchie" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: { type: "color", options: ["Lavender", "Cream", "Black"] },
+        variants: { type: "Color", options: ["Lavender", "Cream", "Black"] },
         hasSizes: false,
         isBestSeller: false,
         isFeatured: false
     },
     {
         id: "a2",
-        name: "Eight-Point Celestial Ring Collection",
+        name: "Eight-Point Celestial Jewelry",
         category: "accessories",
         basePrice: 120.00,
         visual: '<img src="./ring.jpg" alt="Celestial Jewelry" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
         variants: { 
-            type: "style", 
+            type: "Style", 
             options: [
                 "Ring (Men)", "Ring (Women)", 
                 "Necklace (Men)", "Necklace (Women)",
@@ -109,7 +108,7 @@ const PRODUCT_DATA = [
         basePrice: 28.00,
         visual: '<img src="./notebook.jpg" alt="Lumina Notebook" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: { type: "color", options: ["Lavender", "Cream", "Black"] },
+        variants: { type: "Color", options: ["Lavender", "Cream", "Black"] },
         hasSizes: false,
         isBestSeller: true,
         isFeatured: false
@@ -121,7 +120,7 @@ const PRODUCT_DATA = [
         basePrice: 14.00,
         visual: '<img src="./pen.jpg" alt="Cosmic Pens" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: { type: "color", options: ["Lavender", "Cream", "Black"] },
+        variants: { type: "Color", options: ["Lavender", "Cream", "Black"] },
         hasSizes: false,
         isBestSeller: false,
         isFeatured: true
@@ -165,7 +164,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// --- Dynamic Price Interceptor function ---
 function updateCardPriceDisplay(productId) {
     const p = PRODUCT_DATA.find(prod => prod.id === productId);
     if (!p || !p.hasSizes) return;
@@ -179,17 +177,16 @@ function updateCardPriceDisplay(productId) {
     }
 }
 
-// --- Card Generator UI Module ---
+// --- Premium Card Generator UI Module ---
 function createProductCardMarkup(product) {
     let sizeSelectorHtml = "";
     if (product.hasSizes) {
         sizeSelectorHtml = `
-            <label style="font-size:0.65rem; text-transform:uppercase; font-weight:600; display:block; margin-bottom:2px;">Size</label>
-            <select id="size-${product.id}" onchange="updateCardPriceDisplay('${product.id}')" style="margin-bottom: 0.75rem; padding: 0.35rem; font-family: inherit; font-size: 0.75rem; width: 100%; border:1px solid var(--border-soft);">
-                <option value="S">S</option>
-                <option value="M" selected>M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
+            <select id="size-${product.id}" onchange="updateCardPriceDisplay('${product.id}')" style="margin-bottom: 0.5rem; padding: 0.35rem; font-family: inherit; font-size: 0.75rem; width: 100%; border:1px solid #ddd; background:#fff; border-radius:2px;">
+                <option value="S">Size: S</option>
+                <option value="M" selected>Size: M</option>
+                <option value="L">Size: L</option>
+                <option value="XL">Size: XL</option>
             </select>
         `;
     }
@@ -197,35 +194,36 @@ function createProductCardMarkup(product) {
     let variantSelectorHtml = "";
     if (product.variants) {
         variantSelectorHtml = `
-            <label style="font-size:0.65rem; text-transform:uppercase; font-weight:600; display:block; margin-bottom:2px;">Selection</label>
-            <select id="variant-${product.id}" style="margin-bottom: 0.75rem; padding: 0.35rem; font-family: inherit; font-size: 0.75rem; width: 100%; border:1px solid var(--border-soft);">
-                ${product.variants.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+            <select id="variant-${product.id}" style="margin-bottom: 0.5rem; padding: 0.35rem; font-family: inherit; font-size: 0.75rem; width: 100%; border:1px solid #ddd; background:#fff; border-radius:2px;">
+                ${product.variants.options.map(opt => `<option value="${opt}">${product.variants.type}: ${opt}</option>`).join('')}
             </select>
         `;
     }
 
     const quantitySelectorHtml = `
-        <label style="font-size:0.65rem; text-transform:uppercase; font-weight:600; display:block; margin-bottom:2px;">Quantity</label>
-        <input id="qty-${product.id}" type="number" value="1" min="1" max="20" style="margin-bottom:1rem; padding:0.35rem; font-family:inherit; font-size:0.75rem; width:100%; border:1px solid var(--border-soft); text-align:center;">
+        <div style="display:flex; align-items:center; margin-bottom:0.75rem; background:#fff; border:1px solid #ddd; border-radius:2px; padding:0 0.25rem;">
+            <span style="font-size:0.7rem; color:#888; padding-left:0.25rem;">Qty:</span>
+            <input id="qty-${product.id}" type="number" value="1" min="1" max="20" style="padding:0.35rem; border:none; outline:none; font-family:inherit; font-size:0.75rem; width:100%; text-align:right; background:transparent;">
+        </div>
     `;
 
     return `
         <div class="product-card" data-id="${product.id}">
-            <div class="product-img-frame" style="padding:0; background:#FAF9FB;">
+            <div class="product-img-frame" style="padding:0; background:#FAF9FB; position:relative; overflow:hidden;">
                 ${product.badge ? `<span class="badge badge-soon">${product.badge}</span>` : ''}
                 <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                     ${product.visual}
                 </div>
-                <div class="product-action-overlay" style="flex-direction: column; align-items: stretch; padding:1rem; justify-content:center;">
+                <div class="product-action-overlay" style="flex-direction: column; align-items: stretch; padding:1.25rem; justify-content:center; background: rgba(255,255,255,0.95);">
                     ${sizeSelectorHtml}
                     ${variantSelectorHtml}
                     ${quantitySelectorHtml}
-                    <button class="btn btn-primary" onclick="addProductToCart('${product.id}')" style="width:100%; font-size:0.7rem; padding:0.6rem;">Add to Cart</button>
+                    <button class="btn btn-primary" onclick="addProductToCart('${product.id}')" style="width:100%; font-size:0.7rem; padding:0.6rem; text-transform:uppercase; letter-spacing:0.05em;">Add to Cart</button>
                 </div>
             </div>
-            <div class="product-info" style="display:flex; justify-content:space-between; align-items:start;">
-                <h3 style="max-width:70%;">${product.name}</h3>
-                <div class="product-price" id="price-display-${product.id}">$${product.basePrice.toFixed(2)}</div>
+            <div class="product-info" style="display:flex; justify-content:space-between; align-items:center; padding-top:0.75rem;">
+                <h3 style="font-size:0.9rem; font-weight:400; margin:0; color:#1a1a1a;">${product.name}</h3>
+                <div class="product-price" id="price-display-${product.id}" style="font-size:0.9rem; font-weight:500; color:#7E57C2;">$${product.basePrice.toFixed(2)}</div>
             </div>
         </div>
     `;
@@ -249,7 +247,7 @@ function renderPageView(targetRoute) {
         'about': { type: 'static', elementId: 'page-about' },
         'contact': { type: 'static', elementId: 'page-contact' },
         'fashion': { type: 'catalog', title: 'Fashion Line', desc: 'Premium luxury garments crafted in signature colorways.' },
-        'beauty': { type: 'beauty-cat', title: 'Cosmetics & Beauty', desc: 'Stardust formulations and ethereal visual pigments.' },
+        'beauty': { type: 'catalog', title: 'Cosmetics & Beauty', desc: 'Stardust formulations and ethereal visual pigments.' },
         'accessories': { type: 'catalog', title: 'Accessories Studio', desc: 'Delicate jewelry details and minimal carry staples.' },
         'school-supplies': { type: 'catalog', title: 'Stationery Toolkit', desc: 'Minimal executive utility items for creative workspace structuring.' },
         'plushies': { type: 'catalog', title: 'Celestial Plushies', desc: 'Plush companions mapped with cloud-soft luxury fabrics.' },
@@ -263,7 +261,7 @@ function renderPageView(targetRoute) {
     if (targetConfig.type === 'static') {
         const el = document.getElementById(targetConfig.elementId);
         if (el) el.classList.add('active');
-    } else if (targetConfig.type === 'catalog' || targetConfig.type === 'beauty-cat') {
+    } else if (targetConfig.type === 'catalog') {
         const titleEl = document.getElementById('current-catalog-title');
         const descEl = document.getElementById('current-catalog-desc');
         const containerEl = document.getElementById('catalog-products-container');
@@ -298,13 +296,13 @@ function switchCartTab(targetTab) {
     document.getElementById(`cart-${targetTab}-view`).classList.add('active');
 }
 
+// --- Transaction Data Matrix ---
 function toggleCart() {
     document.querySelector('.cart-drawer').classList.toggle('open');
     document.querySelector('.cart-drawer-overlay').classList.toggle('open');
-    switchCartTab('items'); // Reset to items view default on toggle actions
+    switchCartTab('items');
 }
 
-// --- Transaction Data Matrix ---
 function addProductToCart(productId) {
     const matchItem = PRODUCT_DATA.find(p => p.id === productId);
     if (!matchItem) return;
@@ -338,7 +336,6 @@ function addProductToCart(productId) {
         customTitle += ` (${selectedVariant})`;
     }
 
-    // Unique reference generator tracking distinct configurations
     const trackId = `${productId}-${selectedSize}-${selectedVariant}`;
     const existingIndex = shoppingCart.findIndex(item => item.trackId === trackId);
 
@@ -354,7 +351,6 @@ function addProductToCart(productId) {
         });
     }
 
-    // Reset layout input values
     if(qtyInput) qtyInput.value = 1;
 
     refreshCartDisplayState();
@@ -413,7 +409,6 @@ function refreshCartDisplayState() {
     subtotalText.innerText = `$${totalVal.toFixed(2)}`;
     finalCheckoutText.innerText = `$${totalVal.toFixed(2)}`;
     
-    // Inject programmatic string payload sets into hidden forms automatically
     document.getElementById("hidden-order-summary").value = orderDescriptionString;
     document.getElementById("hidden-order-total").value = `$${totalVal.toFixed(2)}`;
 
@@ -431,11 +426,9 @@ function setupInterfaceEventHandlers() {
         });
     }
 
-    // Intercept form data confirmation submission behaviors smoothly
     const orderForm = document.getElementById("order-submission-form");
     if(orderForm) {
         orderForm.addEventListener("submit", () => {
-            // Flash data clear confirmation sequence after processing safely
             setTimeout(() => {
                 shoppingCart = [];
                 refreshCartDisplayState();
