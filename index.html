@@ -99,14 +99,12 @@
 
             <section class="section-container bg-subtle-shelf">
                 <h2 class="section-title">Featured Additions</h2>
-                <div class="products-grid" id="featured-products-container">
-                    </div>
+                <div class="products-grid" id="featured-products-container"></div>
             </section>
 
             <section class="section-container">
                 <h2 class="section-title">Best Sellers</h2>
-                <div class="products-grid" id="best-sellers-container">
-                    </div>
+                <div class="products-grid" id="best-sellers-container"></div>
             </section>
 
             <section class="newsletter-section">
@@ -124,8 +122,7 @@
         <section id="page-catalog" class="page-view section-container">
             <h1 class="catalog-title" id="current-catalog-title">Collection</h1>
             <p class="catalog-subtitle" id="current-catalog-desc">Browse our premium lifestyle selections.</p>
-            <div class="products-grid" id="catalog-products-container">
-                </div>
+            <div class="products-grid" id="catalog-products-container"></div>
         </section>
 
         <section id="page-about" class="page-view section-container">
@@ -148,22 +145,21 @@
                     <h1>Get In Touch</h1>
                     <p>Have questions regarding your order, collaborative pursuits, or sizing specifications? Connect with our dedicated concierge team.</p>
                     <div class="contact-info-block">
-                        <p><strong>Inquiries:</strong> support@lumina-lifestyle.internal</p>
-                        <p><strong>Press Relations:</strong> community@lumina-lifestyle.internal</p>
+                        <p><strong>Inquiries & Support:</strong> parisbotchway@gmail.com</p>
                     </div>
                 </div>
-                <form class="contact-form" onsubmit="event.preventDefault(); alert('Message successfully transmitted to Lumina HQ.'); this.reset();">
+                <form class="contact-form" action="https://formspree.io/f/xvggpzee" method="POST">
                     <div class="form-group">
                         <label>Your Name</label>
-                        <input type="text" required>
+                        <input type="text" name="name" required>
                     </div>
                     <div class="form-group">
                         <label>Email Address</label>
-                        <input type="email" required>
+                        <input type="email" name="email" required>
                     </div>
                     <div class="form-group">
                         <label>How can we assist you?</label>
-                        <textarea rows="6" required></textarea>
+                        <textarea name="message" rows="6" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
@@ -175,18 +171,83 @@
     <div class="cart-drawer-overlay" onclick="toggleCart()"></div>
     <div class="cart-drawer">
         <div class="cart-header">
-            <h3>Your Cart</h3>
+            <h3>Your Collection</h3>
             <button class="close-cart-btn" onclick="toggleCart()">&times;</button>
         </div>
-        <div class="cart-items-container" id="cart-items">
-            <p class="empty-cart-text">Your collection is currently empty.</p>
+        
+        <div style="display:flex; border-bottom:1px solid var(--border-soft);">
+            <button id="tab-items" class="cart-tab active" onclick="switchCartTab('items')">1. Items</button>
+            <button id="tab-checkout" class="cart-tab" onclick="switchCartTab('checkout')" disabled>2. Shipping & Payment</button>
         </div>
-        <div class="cart-footer">
-            <div class="cart-total-row">
-                <span>Subtotal</span>
-                <span id="cart-subtotal-val">$0.00</span>
+
+        <div id="cart-items-view" class="cart-tab-content active">
+            <div class="cart-items-container" id="cart-items">
+                <p class="empty-cart-text">Your collection is currently empty.</p>
             </div>
-            <button class="btn btn-primary checkout-btn" onclick="alert('Checkout integration simulated. Thank you for shopping with Lumina!')" disabled>Proceed to Checkout</button>
+            <div class="cart-footer">
+                <div class="cart-total-row">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal-val">$0.00</span>
+                </div>
+                <button class="btn btn-primary checkout-btn" onclick="switchCartTab('checkout')" disabled>Proceed to Details</button>
+            </div>
+        </div>
+
+        <div id="cart-checkout-view" class="cart-tab-content">
+            <form id="order-submission-form" action="https://formspree.io/f/xvggpzee" method="POST" style="padding:2rem; overflow-y:auto; height:calc(100% - 60px);">
+                
+                <input type="hidden" name="_subject" value="New Lumina Lifestyle Order Placed!">
+                <input type="hidden" id="hidden-order-summary" name="order_summary">
+                <input type="hidden" id="hidden-order-total" name="order_total">
+
+                <h4 style="margin-bottom:1rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.1em; color:var(--accent-amethyst);">Customer Details</h4>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="customer_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="customer_email" required>
+                </div>
+
+                <h4 style="margin-top:2rem; margin-bottom:1rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.1em; color:var(--accent-amethyst);">Shipping Address</h4>
+                <div class="form-group">
+                    <label>Street Address</label>
+                    <input type="text" name="shipping_street" required>
+                </div>
+                <div class="form-group">
+                    <label>City & State / Region</label>
+                    <input type="text" name="shipping_city_state" required>
+                </div>
+                <div class="form-group">
+                    <label>Postal Code / Zip</label>
+                    <input type="text" name="shipping_zip" required>
+                </div>
+                <div class="form-group">
+                    <label>Country</label>
+                    <input type="text" name="shipping_country" required>
+                </div>
+
+                <h4 style="margin-top:2rem; margin-bottom:1rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.1em; color:var(--accent-amethyst);">Payment Preferences</h4>
+                <div class="form-group">
+                    <label>Choose Method</label>
+                    <select name="payment_method" required style="width:100%; padding:0.75rem; border:1px solid var(--border-soft); background:var(--bg-milky-way);">
+                        <option value="Credit/Debit Card">Credit / Debit Card</option>
+                        <option value="Apple Pay / Google Pay">Apple Pay / Google Pay</option>
+                        <option value="Mobile Money / Local Bank Transfer">Mobile Money / Local Bank Transfer</option>
+                        <option value="PayPal">PayPal</option>
+                    </select>
+                </div>
+
+                <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border-soft);">
+                    <div style="display:flex; justify-content:between; margin-bottom:1rem; font-weight:500;">
+                        <span>Final Total:</span>
+                        <span id="checkout-final-total" style="margin-left:auto;">$0.00</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">Transmit Order</button>
+                    <button type="button" class="btn btn-secondary" onclick="switchCartTab('items')" style="width:100%; margin-top:0.5rem; padding:0.5rem;">Back to Cart</button>
+                </div>
+            </form>
         </div>
     </div>
 
