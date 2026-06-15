@@ -165,21 +165,10 @@ function updateCardPriceDisplay(productId) {
 function createProductCardMarkup(product) {
     let internalControlsRowHtml = "";
 
-    // Quantity dropdown that will sit next to color for non-sizing items
-    const miniQtyDropdown = `
-        <select id="qty-${product.id}" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555;">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-    `;
-
     if (product.hasSizes && product.variants) {
-        // If it's clothing: [ Size Dropdown ] alongside [ Color Dropdown ]
+        // Clothes: Beautiful compact horizontal row putting Size and Color side-by-side
         internalControlsRowHtml = `
-            <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 6px; margin-bottom: 10px; width: 100%;">
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 6px; margin-bottom: 10px; width: 100%;">
                 <select id="size-${product.id}" onchange="updateCardPriceDisplay('${product.id}')" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555;">
                     <option value="S">S</option>
                     <option value="M" selected>M</option>
@@ -192,17 +181,16 @@ function createProductCardMarkup(product) {
             </div>
         `;
     } else if (product.variants) {
-        // If it has NO size (lip gloss/supplies): [ Variant Dropdown ] alongside [ Quantity Dropdown ]
+        // Items without sizes (lipgloss, pens, rings): just a single neat full-width dropdown for variations
         internalControlsRowHtml = `
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 6px; margin-bottom: 10px; width: 100%;">
-                <select id="variant-${product.id}" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555;">
+            <div style="margin-bottom: 10px; width: 100%;">
+                <select id="variant-${product.id}" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555; width: 100%;">
                     ${product.variants.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
                 </select>
-                ${miniQtyDropdown}
             </div>
         `;
     } else {
-        // Items with no sizes or variations (like plushie or crossbody): just simple space alignment
+        // Standard items with no extra options (plushie, bag): leaves layout perfectly minimal
         internalControlsRowHtml = `<div style="margin-bottom: 4px; width: 100%;"></div>`;
     }
 
@@ -318,13 +306,6 @@ function addProductToCart(productId) {
         if (varSel) selectedVariant = varSel.value;
     }
 
-    let parsedQty = 1;
-    const qtyInput = document.getElementById(`qty-${productId}`);
-    if (qtyInput) {
-        parsedQty = parseInt(qtyInput.value) || 1;
-        qtyInput.value = "1"; // Reset card select back to 1 safely
-    }
-
     let customTitle = matchItem.name;
     if (selectedSize && selectedVariant) {
         customTitle += ` (${selectedVariant} / Size ${selectedSize})`;
@@ -338,14 +319,14 @@ function addProductToCart(productId) {
     const existingIndex = shoppingCart.findIndex(item => item.trackId === trackId);
 
     if (existingIndex > -1) {
-        shoppingCart[existingIndex].quantity += parsedQty;
+        shoppingCart[existingIndex].quantity += 1;
     } else {
         shoppingCart.push({
             trackId: trackId,
             product: matchItem,
             name: customTitle,
             price: itemPrice,
-            quantity: parsedQty
+            quantity: 1
         });
     }
 
@@ -354,14 +335,12 @@ function addProductToCart(productId) {
     document.querySelector('.cart-drawer-overlay').classList.add('open');
 }
 
-// --- Cart Adjustments Quantity Engine ---
 function changeCartItemQty(trackId, adjustmentAmount) {
     const targetIndex = shoppingCart.findIndex(item => item.trackId === trackId);
     if (targetIndex === -1) return;
 
     shoppingCart[targetIndex].quantity += adjustmentAmount;
 
-    // If quantity hits 0 or below, wipe the line item out completely
     if (shoppingCart[targetIndex].quantity <= 0) {
         shoppingCart = shoppingCart.filter(item => item.trackId !== trackId);
     }
