@@ -163,34 +163,11 @@ function updateCardPriceDisplay(productId) {
 
 // --- Dynamic Card Generator UI Module ---
 function createProductCardMarkup(product) {
-    // Determine how many grid columns to make inside the micro dropdown bar
-    let columnsCount = 1; // Always has quantity
-    if (product.hasSizes) columnsCount++;
-    if (product.variants) columnsCount++;
+    let internalControlsRowHtml = "";
 
-    let sizeSelectorHtml = "";
-    if (product.hasSizes) {
-        sizeSelectorHtml = `
-            <select id="size-${product.id}" onchange="updateCardPriceDisplay('${product.id}')" style="padding: 5px; font-family: inherit; font-size: 11px; border: 1px solid #e0e0e0; background: #fff; border-radius: 4px; outline: none; width:100%;">
-                <option value="S">S</option>
-                <option value="M" selected>M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-            </select>
-        `;
-    }
-
-    let variantSelectorHtml = "";
-    if (product.variants) {
-        variantSelectorHtml = `
-            <select id="variant-${product.id}" style="padding: 5px; font-family: inherit; font-size: 11px; border: 1px solid #e0e0e0; background: #fff; border-radius: 4px; outline: none; width:100%;">
-                ${product.variants.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-            </select>
-        `;
-    }
-
-    const quantitySelectorHtml = `
-        <select id="qty-${product.id}" style="padding: 5px; font-family: inherit; font-size: 11px; border: 1px solid #e0e0e0; background: #fff; border-radius: 4px; outline: none; width:100%;">
+    // Quantity dropdown that will sit next to color for non-sizing items
+    const miniQtyDropdown = `
+        <select id="qty-${product.id}" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555;">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -199,6 +176,36 @@ function createProductCardMarkup(product) {
         </select>
     `;
 
+    if (product.hasSizes && product.variants) {
+        // If it's clothing: [ Size Dropdown ] alongside [ Color Dropdown ]
+        internalControlsRowHtml = `
+            <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 6px; margin-bottom: 10px; width: 100%;">
+                <select id="size-${product.id}" onchange="updateCardPriceDisplay('${product.id}')" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555;">
+                    <option value="S">S</option>
+                    <option value="M" selected>M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                </select>
+                <select id="variant-${product.id}" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555;">
+                    ${product.variants.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                </select>
+            </div>
+        `;
+    } else if (product.variants) {
+        // If it has NO size (lip gloss/supplies): [ Variant Dropdown ] alongside [ Quantity Dropdown ]
+        internalControlsRowHtml = `
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 6px; margin-bottom: 10px; width: 100%;">
+                <select id="variant-${product.id}" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555;">
+                    ${product.variants.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                </select>
+                ${miniQtyDropdown}
+            </div>
+        `;
+    } else {
+        // Items with no sizes or variations (like plushie or crossbody): just simple space alignment
+        internalControlsRowHtml = `<div style="margin-bottom: 4px; width: 100%;"></div>`;
+    }
+
     return `
         <div class="product-card" data-id="${product.id}">
             <div class="product-img-frame" style="padding:0; background:#FAF9FB; position:relative; overflow:hidden;">
@@ -206,15 +213,9 @@ function createProductCardMarkup(product) {
                 <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                     ${product.visual}
                 </div>
-                <div class="product-action-overlay" style="flex-direction: column; align-items: stretch; padding: 12px; justify-content: center; background: rgba(255, 255, 255, 0.96);">
-                    
-                    <div style="display: grid; grid-template-columns: repeat(${columnsCount}, 1fr); gap: 6px; margin-bottom: 10px; width: 100%;">
-                        ${sizeSelectorHtml}
-                        ${variantSelectorHtml}
-                        ${quantitySelectorHtml}
-                    </div>
-
-                    <button class="btn btn-primary" onclick="addProductToCart('${product.id}')" style="width:100%; font-size:11px; padding:8px; text-transform:uppercase; letter-spacing:0.05em; border-radius:4px;">Add to Cart</button>
+                <div class="product-action-overlay" style="flex-direction: column; align-items: stretch; padding: 14px; justify-content: center; background: rgba(255, 255, 255, 0.96);">
+                    ${internalControlsRowHtml}
+                    <button class="btn btn-primary" onclick="addProductToCart('${product.id}')" style="width:100%; font-size:11px; padding:9px; text-transform:uppercase; letter-spacing:0.05em; border-radius:4px;">Add to Cart</button>
                 </div>
             </div>
             <div class="product-info" style="display:flex; justify-content:space-between; align-items:center; padding-top:10px;">
@@ -319,7 +320,10 @@ function addProductToCart(productId) {
 
     let parsedQty = 1;
     const qtyInput = document.getElementById(`qty-${productId}`);
-    if (qtyInput) parsedQty = parseInt(qtyInput.value) || 1;
+    if (qtyInput) {
+        parsedQty = parseInt(qtyInput.value) || 1;
+        qtyInput.value = "1"; // Reset card select back to 1 safely
+    }
 
     let customTitle = matchItem.name;
     if (selectedSize && selectedVariant) {
@@ -345,11 +349,24 @@ function addProductToCart(productId) {
         });
     }
 
-    if(qtyInput) qtyInput.value = "1";
-
     refreshCartDisplayState();
     document.querySelector('.cart-drawer').classList.add('open');
     document.querySelector('.cart-drawer-overlay').classList.add('open');
+}
+
+// --- Cart Adjustments Quantity Engine ---
+function changeCartItemQty(trackId, adjustmentAmount) {
+    const targetIndex = shoppingCart.findIndex(item => item.trackId === trackId);
+    if (targetIndex === -1) return;
+
+    shoppingCart[targetIndex].quantity += adjustmentAmount;
+
+    // If quantity hits 0 or below, wipe the line item out completely
+    if (shoppingCart[targetIndex].quantity <= 0) {
+        shoppingCart = shoppingCart.filter(item => item.trackId !== trackId);
+    }
+
+    refreshCartDisplayState();
 }
 
 function removeCartLineItem(trackId) {
@@ -370,4 +387,78 @@ function refreshCartDisplayState() {
 
     if (shoppingCart.length === 0) {
         container.innerHTML = `<p class="empty-cart-text">Your collection is currently empty.</p>`;
-        sub
+        subtotalText.innerText = "$0.00";
+        finalCheckoutText.innerText = "$0.00";
+        checkoutBtn.disabled = true;
+        checkoutTabHead.disabled = true;
+        return;
+    }
+
+    let totalVal = 0;
+    let orderDescriptionString = "";
+
+    container.innerHTML = shoppingCart.map(item => {
+        const rowCost = item.price * item.quantity;
+        totalVal += rowCost;
+        orderDescriptionString += `• [${item.quantity}x] ${item.name} @ $${item.price.toFixed(2)} each (Sub: $${rowCost.toFixed(2)})\n`;
+        
+        return `
+            <div class="cart-item-row" style="display:flex; align-items:center; gap:12px; margin-bottom:1rem; padding-bottom:1rem; border-bottom:1px solid rgba(126,87,194,0.06);">
+                <div style="width:55px; height:55px; border-radius:4px; background:#F9F8FA; overflow:hidden; display:flex; align-items:center; justify-content:center; border:1px solid #f0eaf7;">
+                    ${item.product.visual}
+                </div>
+                <div style="flex:1;">
+                    <h4 style="font-size:0.8rem; line-height:1.3; font-weight:500; color:#1a1a1a; margin:0;">${item.name}</h4>
+                    <p style="font-size:0.75rem; color:#7E57C2; margin-top:2px; font-weight:500;">$${item.price.toFixed(2)}</p>
+                    
+                    <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+                        <div style="display:inline-flex; align-items:center; border:1px solid #e2d4f0; border-radius:4px; background:#fff; overflow:hidden;">
+                            <button type="button" onclick="changeCartItemQty('${item.trackId}', -1)" style="border:none; background:none; padding:2px 8px; font-size:12px; cursor:pointer; font-weight:600; color:#7E57C2;">-</button>
+                            <span style="font-size:11px; padding:0 4px; min-width:14px; text-align:center; font-weight:500; color:#333;">${item.quantity}</span>
+                            <button type="button" onclick="changeCartItemQty('${item.trackId}', 1)" style="border:none; background:none; padding:2px 8px; font-size:12px; cursor:pointer; font-weight:600; color:#7E57C2;">+</button>
+                        </div>
+                        <button class="remove-item-btn" onclick="removeCartLineItem('${item.trackId}')" style="background:none; border:none; color:#999; font-size:0.65rem; text-decoration:none; cursor:pointer; padding:0; margin-left:4px;">Remove</button>
+                    </div>
+                </div>
+                <div style="font-size:0.8rem; font-weight:600; color:#1a1a1a;">$${rowCost.toFixed(2)}</div>
+            </div>
+        `;
+    }).join('');
+
+    subtotalText.innerText = `$${totalVal.toFixed(2)}`;
+    finalCheckoutText.innerText = `$${totalVal.toFixed(2)}`;
+    
+    document.getElementById("hidden-order-summary").value = orderDescriptionString;
+    document.getElementById("hidden-order-total").value = `$${totalVal.toFixed(2)}`;
+
+    checkoutBtn.disabled = false;
+    checkoutTabHead.disabled = false;
+}
+
+function setupInterfaceEventHandlers() {
+    const toggle = document.querySelector('.mobile-nav-toggle');
+    const menu = document.querySelector('.nav-menu');
+    if (toggle && menu) {
+        toggle.addEventListener('click', () => {
+            menu.classList.toggle('open');
+            toggle.classList.toggle('open');
+        });
+    }
+
+    const orderForm = document.getElementById("order-submission-form");
+    if(orderForm) {
+        orderForm.addEventListener("submit", () => {
+            setTimeout(() => {
+                shoppingCart = [];
+                refreshCartDisplayState();
+                toggleCart();
+                orderForm.reset();
+            }, 500);
+        });
+    }
+}
+
+function handleUrlRoutingCheck() {
+    const currentHash = window.location.hash.replace('#', '');
+    if(currentHash) renderPageView(currentHash);
+}
