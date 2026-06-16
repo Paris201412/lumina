@@ -166,7 +166,7 @@ function createProductCardMarkup(product) {
     let internalControlsRowHtml = "";
 
     if (product.hasSizes && product.variants) {
-        // Clothes: Beautiful compact horizontal row putting Size and Color side-by-side
+        // [ Size Dropdown ] and [ Color Dropdown ] side-by-side
         internalControlsRowHtml = `
             <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 6px; margin-bottom: 10px; width: 100%;">
                 <select id="size-${product.id}" onchange="updateCardPriceDisplay('${product.id}')" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555;">
@@ -181,16 +181,22 @@ function createProductCardMarkup(product) {
             </div>
         `;
     } else if (product.variants) {
-        // Items without sizes (lipgloss, pens, rings): just a single neat full-width dropdown for variations
+        // No sizes: [ Color Dropdown ] and [ Quantity Dropdown ] side-by-side
         internalControlsRowHtml = `
-            <div style="margin-bottom: 10px; width: 100%;">
-                <select id="variant-${product.id}" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555; width: 100%;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 6px; margin-bottom: 10px; width: 100%;">
+                <select id="variant-${product.id}" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555; width:100%;">
                     ${product.variants.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                </select>
+                <select id="qty-${product.id}" style="padding: 6px; font-family: inherit; font-size: 11px; border: 1px solid #e2d4f0; background: #fff; border-radius: 4px; outline: none; color: #555; width:100%;">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
                 </select>
             </div>
         `;
     } else {
-        // Standard items with no extra options (plushie, bag): leaves layout perfectly minimal
         internalControlsRowHtml = `<div style="margin-bottom: 4px; width: 100%;"></div>`;
     }
 
@@ -306,6 +312,15 @@ function addProductToCart(productId) {
         if (varSel) selectedVariant = varSel.value;
     }
 
+    let parsedQty = 1;
+    if (!matchItem.hasSizes) {
+        const qtyInput = document.getElementById(`qty-${productId}`);
+        if (qtyInput) {
+            parsedQty = parseInt(qtyInput.value) || 1;
+            qtyInput.value = "1";
+        }
+    }
+
     let customTitle = matchItem.name;
     if (selectedSize && selectedVariant) {
         customTitle += ` (${selectedVariant} / Size ${selectedSize})`;
@@ -319,14 +334,14 @@ function addProductToCart(productId) {
     const existingIndex = shoppingCart.findIndex(item => item.trackId === trackId);
 
     if (existingIndex > -1) {
-        shoppingCart[existingIndex].quantity += 1;
+        shoppingCart[existingIndex].quantity += parsedQty;
     } else {
         shoppingCart.push({
             trackId: trackId,
             product: matchItem,
             name: customTitle,
             price: itemPrice,
-            quantity: 1
+            quantity: parsedQty
         });
     }
 

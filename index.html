@@ -3,304 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* --- Lumina Core Theme Variables --- */
-        :root {
-            --accent-amethyst: #9b5de5;
-            --text-muted-stardust: #8e9aaf;
-            --text-stellar-dark: #212529;
-            --bg-cosmic-light: #f8f9fa;
-            --border-stardust: #e2e8f0;
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --leaf-green: #4CAF50;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--bg-cosmic-light);
-            color: var(--text-stellar-dark);
-            margin: 0;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        /* --- Intro Opening Text & Animated Leaves --- */
-        .opening-header {
-            text-align: center;
-            padding: 60px 20px;
-            position: relative;
-        }
-
-        .opening-header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            color: var(--text-stellar-dark);
-        }
-
-        .opening-header p {
-            font-size: 0.9rem;
-            color: var(--text-muted-stardust);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        /* Pretty Floating Leaves Structure */
-        .leaf-decor {
-            position: absolute;
-            pointer-events: none;
-            color: var(--leaf-green);
-            opacity: 0.15;
-            font-size: 1.5rem;
-            animation: floatLeaves 6s ease-in-out infinite alternate;
-        }
-        .leaf-1 { top: 10%; left: 5%; animation-delay: 0s; }
-        .leaf-2 { top: 20%; right: 8%; animation-delay: 1.5s; }
-        .leaf-3 { bottom: 10%; left: 12%; animation-delay: 3s; }
-
-        @keyframes floatLeaves {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(-15px) rotate(15deg); }
-        }
-
-        /* --- Your Exact Checkout Cart Drawer Tab Styling --- */
-        .tabs-container {
-            display: flex;
-            border-bottom: 2px solid var(--border-stardust);
-            margin-bottom: 40px;
-        }
-
-        .cart-tab {
-            flex: 1;
-            background: none;
-            border: none;
-            padding: 1rem;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            cursor: pointer;
-            color: var(--text-muted-stardust);
-            border-bottom: 2px solid transparent;
-            transition: var(--transition-smooth);
-            text-align: center;
-        }
-
-        .cart-tab.active {
-            color: var(--accent-amethyst);
-            border-bottom: 2px solid var(--accent-amethyst);
-        }
-
-        .cart-tab:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .cart-tab-content {
-            display: none;
-            flex: 1;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .cart-tab-content.active {
-            display: flex;
-        }
-
-        /* --- Product Grid & Action Overlay --- */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .product-card {
-            background: #ffffff;
-            border: 1px solid var(--border-stardust);
-            padding: 25px;
-            border-radius: 4px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-        }
-
-        .product-title {
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin: 0 0 8px 0;
-        }
-
-        .product-price {
-            font-size: 0.85rem;
-            color: var(--text-muted-stardust);
-            margin-bottom: 20px;
-        }
-
-        /* --- Dropdown Form & Input Aesthetics Layout --- */
-        .product-action-overlay {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .option-field {
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .option-field label {
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 6px;
-            color: var(--text-muted-stardust);
-        }
-
-        .product-action-overlay select, 
-        .product-action-overlay input {
-            background: #ffffff;
-            color: var(--text-stellar-dark);
-            border-radius: 2px;
-            border: 1px solid var(--border-stardust);
-            padding: 10px 12px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            outline: none;
-            width: 100%;
-            box-sizing: border-box;
-            transition: var(--transition-smooth);
-        }
-
-        .product-action-overlay select:focus, 
-        .product-action-overlay input:focus {
-            border-color: var(--accent-amethyst);
-        }
-
-        .action-submit-btn {
-            background-color: var(--text-stellar-dark);
-            color: #ffffff;
-            border: none;
-            padding: 14px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            cursor: pointer;
-            width: 100%;
-            transition: var(--transition-smooth);
-        }
-
-        .action-submit-btn:hover {
-            background-color: var(--accent-amethyst);
-        }
-
-        /* --- Cart Container View Aesthetics --- */
-        .cart-item-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-stardust);
-        }
-
-        .cart-item-info h4 {
-            margin: 0 0 5px 0;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .cart-item-info p {
-            margin: 0;
-            font-size: 0.75rem;
-            color: var(--text-muted-stardust);
-        }
-
-        .cart-item-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .cart-qty-box {
-            width: 55px;
-            text-align: center;
-            padding: 6px;
-            border: 1px solid var(--border-stardust);
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-        }
-
-        .cart-qty-box:focus {
-            border-color: var(--accent-amethyst);
-            outline: none;
-        }
-
-        .cart-remove-icon {
-            background: none;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .cart-summary-total {
-            text-align: right;
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-top: 30px;
-            color: var(--text-stellar-dark);
-        }
-
-        .cart-empty-state {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-muted-stardust);
-            font-size: 0.8rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-    </style>
+    <title>Lumina Lifestyle | Create Your Glow</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="container">
-    <div class="leaf-decor leaf-1">🍃</div>
-    <div class="leaf-decor leaf-2">🌿</div>
-    <div class="leaf-decor leaf-3">🍃</div>
+    <div class="star-glow bg-glow-1"></div>
+    <div class="star-glow bg-glow-2"></div>
 
-    <header class="opening-header">
-        <h1>Lumina</h1>
-        <p>A Beautifully Curated Collection</p>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area" onclick="navigateTo('home')">
+                <svg class="star-logo" viewBox="0 0 100 100" width="32" height="32">
+                    <path d="M50 0 L55 35 L90 35 L60 55 L75 90 L50 65 L25 90 L40 55 L10 35 L45 35 Z" fill="url(#starGrad)" />
+                    <defs>
+                        <linearGradient id="starGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#E2D4F0" />
+                            <stop offset="100%" stop-color="#FFFFFF" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="brand-name">LUMINA</span>
+            </div>
+            
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#fashion" class="nav-link">Fashion</a>
+                <a href="#beauty" class="nav-link">Beauty</a>
+                <a href="#accessories" class="nav-link">Accessories</a>
+                <a href="#school-supplies" class="nav-link">School Supplies</a>
+                <a href="#plushies" class="nav-link">Plushies</a>
+                <a href="#self-care" class="nav-link">Self-Care</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="cart-icon-wrapper" onclick="toggleCart()">
+                    <svg class="cart-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </div>
+            </div>
+        </div>
     </header>
 
-    <div class="tabs-container">
-        <button class="cart-tab active" onclick="switchTab(event, 'shop-view')">Collection</button>
-        <button class="cart-tab" onclick="switchTab(event, 'cart-view')">Bag (<span id="bag-count">0</span>)</button>
+    <main id="main-content">
+        
+        <section id="page-home" class="page-view active">
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <h1>Create Your Glow</h1>
+                    <p>Discover a curated collection designed to bring soft celestial light, comfort, and creative luxury to your everyday lifestyle.</p>
+                    <button class="btn btn-primary" onclick="navigateTo('fashion')">Explore Collections</button>
+                </div>
+            </div>
+
+            <section class="section-container">
+                <h2 class="section-title">Shop By Category</h2>
+                <div class="categories-grid">
+                    <div class="category-card" onclick="navigateTo('fashion')">
+                        <div class="category-img-placeholder" style="background: linear-gradient(135deg, #E2D4F0 0%, #F6EFF7 100%);">
+                            <span>Apparel</span>
+                        </div>
+                        <h3>Fashion</h3>
+                    </div>
+                    <div class="category-card" onclick="navigateTo('beauty')">
+                        <div class="category-img-placeholder" style="background: linear-gradient(135deg, #F9E6E6 0%, #FFFFFF 100%);">
+                            <span>Cosmetics</span>
+                        </div>
+                        <h3>Beauty</h3>
+                    </div>
+                    <div class="category-card" onclick="navigateTo('accessories')">
+                        <div class="category-img-placeholder" style="background: linear-gradient(135deg, #EAEAEA 0%, #D8D3DC 100%);">
+                            <span>Jewelry & Details</span>
+                        </div>
+                        <h3>Accessories</h3>
+                    </div>
+                    <div class="category-card" onclick="navigateTo('school-supplies')">
+                        <div class="category-img-placeholder" style="background: linear-gradient(135deg, #F0F3F8 0%, #E2D4F0 100%);">
+                            <span>Stationery</span>
+                        </div>
+                        <h3>School Supplies</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-container bg-subtle-shelf">
+                <h2 class="section-title">Featured Additions</h2>
+                <div class="products-grid" id="featured-products-container"></div>
+            </section>
+
+            <section class="section-container">
+                <h2 class="section-title">Best Sellers</h2>
+                <div class="products-grid" id="best-sellers-container"></div>
+            </section>
+
+            <section class="newsletter-section">
+                <div class="newsletter-content">
+                    <h2>Join the Luminary Community</h2>
+                    <p>Subscribe to receive early access to new drops, exclusive aesthetic inspiration, and hidden updates.</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Welcome to the inner circle of light!'); this.reset();">
+                        <input type="email" placeholder="Enter your email address" required>
+                        <button type="submit" class="btn btn-secondary">Subscribe</button>
+                    </form>
+                </div>
+            </section>
+        </section>
+
+        <section id="page-catalog" class="page-view section-container">
+            <h1 class="catalog-title" id="current-catalog-title">Collection</h1>
+            <p class="catalog-subtitle" id="current-catalog-desc">Browse our premium lifestyle selections.</p>
+            <div class="products-grid" id="catalog-products-container"></div>
+        </section>
+
+        <section id="page-about" class="page-view section-container">
+            <div class="about-wrapper">
+                <div class="about-text">
+                    <h1>Our Story</h1>
+                    <p class="premium-lead">Lumina was founded by Paris Botchway at just 12 years old, built on a vision that everyday items should inspire a sense of wonder and calm.</p>
+                    <p>Drawing aesthetic vision from serene lavender dusk skies, clean cosmic lines, and minimalist design structures, we engineer high-end artifacts crossing fashion, utility, and self-care space.</p>
+                    <p>We craft for the dreamers, creators, and bold spirits who demand both premium tactile luxury and soft, comforting warmth from the physical elements they surround themselves with.</p>
+                </div>
+                <div class="about-graphic-placeholder">
+                    <div class="floating-star-display">⭐</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-contact" class="page-view section-container">
+            <div class="contact-grid">
+                <div>
+                    <h1>Get In Touch</h1>
+                    <p>Have questions regarding your order, collaborative pursuits, or sizing specifications? Connect with our dedicated concierge team.</p>
+                    <div class="contact-info-block">
+                        <p><strong>Inquiries & Support:</strong> parisbotchway@gmail.com</p>
+                    </div>
+                </div>
+                <form class="contact-form" action="https://formspree.io/f/xvggpzee" method="POST">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>How can we assist you?</label>
+                        <textarea name="message" rows="6" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="cart-drawer-overlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer">
+        <div class="cart-header">
+            <h3>Your Collection</h3>
+            <button class="close-cart-btn" onclick="toggleCart()">&times;</button>
+        </div>
+        
+        <div style="display:flex; border-bottom:1px solid var(--border-soft);">
+            <button id="tab-items" class="cart-tab active" onclick="switchCartTab('items')">1. Items</button>
+            <button id="tab-checkout" class="cart-tab" onclick="switchCartTab('checkout')" disabled>2. Shipping & Payment</button>
+        </div>
+
+        <div id="cart-items-view" class="cart-tab-content active">
+            <div class="cart-items-container" id="cart-items">
+                <p class="empty-cart-text">Your collection is currently empty.</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total-row">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal-val">$0.00</span>
+                </div>
+                <button class="btn btn-primary checkout-btn" onclick="switchCartTab('checkout')" disabled>Proceed to Details</button>
+            </div>
+        </div>
+
+        <div id="cart-checkout-view" class="cart-tab-content">
+            <form id="order-submission-form" action="https://formspree.io/f/xvggpzee" method="POST" style="padding:2rem; overflow-y:auto; height:calc(100% - 60px);">
+                
+                <input type="hidden" name="_subject" value="New Lumina Lifestyle Order Placed!">
+                <input type="hidden" id="hidden-order-summary" name="order_summary">
+                <input type="hidden" id="hidden-order-total" name="order_total">
+
+                <h4 style="margin-bottom:1rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.1em; color:var(--accent-amethyst);">Customer Details</h4>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="customer_name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="customer_email" required>
+                </div>
+
+                <h4 style="margin-top:2rem; margin-bottom:1rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.1em; color:var(--accent-amethyst);">Shipping Address</h4>
+                <div class="form-group">
+                    <label>Street Address</label>
+                    <input type="text" name="shipping_street" required>
+                </div>
+                <div class="form-group">
+                    <label>City & State / Region</label>
+                    <input type="text" name="shipping_city_state" required>
+                </div>
+                <div class="form-group">
+                    <label>Postal Code / Zip</label>
+                    <input type="text" name="shipping_zip" required>
+                </div>
+                <div class="form-group">
+                    <label>Country</label>
+                    <input type="text" name="shipping_country" required>
+                </div>
+
+                <h4 style="margin-top:2rem; margin-bottom:1rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.1em; color:var(--accent-amethyst);">Payment Preferences</h4>
+                <div class="form-group">
+                    <label>Choose Method</label>
+                    <select name="payment_method" required style="width:100%; padding:0.75rem; border:1px solid var(--border-soft); background:var(--bg-milky-way);">
+                        <option value="Credit/Debit Card">Credit / Debit Card</option>
+                        <option value="Apple Pay / Google Pay">Apple Pay / Google Pay</option>
+                        <option value="Mobile Money / Local Bank Transfer">Mobile Money / Local Bank Transfer</option>
+                        <option value="PayPal">PayPal</option>
+                    </select>
+                </div>
+
+                <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border-soft);">
+                    <div style="display:flex; justify-content:between; margin-bottom:1rem; font-weight:500;">
+                        <span>Final Total:</span>
+                        <span id="checkout-final-total" style="margin-left:auto;">$0.00</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">Transmit Order</button>
+                    <button type="button" class="btn btn-secondary" onclick="switchCartTab('items')" style="width:100%; margin-top:0.5rem; padding:0.5rem;">Back to Cart</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <div id="shop-view" class="cart-tab-content active">
-        <div class="product-grid">
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-brand-col">
+                <span class="brand-name">LUMINA</span>
+                <p>Curating clean cosmic luxury for everyday lifestyle spaces.</p>
+            </div>
+            <div>
+                <h4>Explore</h4>
+                <ul class="footer-links">
+                    <li><a href="#fashion">Apparel Line</a></li>
+                    <li><a href="#beauty">Beauty Artifacts</a></li>
+                    <li><a href="#school-supplies">Stationery Tools</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact Support</a></li>
+                    <li><a href="#home">Privacy Matrix</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Connect</h4>
+                <div class="social-row">
+                    <a href="#" aria-label="Instagram">IG</a>
+                    <a href="#" aria-label="Pinterest">PIN</a>
+                    <a href="#" aria-label="TikTok">TK</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 LUMINA Lifestyle Ecosystem. All rights reserved.</p>
+        </div>
+    </footer>
 
-            <div class
+    <script src="./script.js"></script>
+</body>
+</html>
