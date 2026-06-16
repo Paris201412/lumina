@@ -7,7 +7,7 @@ const PRODUCT_DATA = [
         price: 88.00,
         visual: '<img src="./hoodie.jpg" alt="Lumina Hoodie" style="width:100%; height:100%; object-fit:cover;">', 
         badge: "",
-        variants: ["Lavender", "Cream", "Black"],
+        variants: ["White", "Lavender", "Black"],
         hasSizes: true,
         isBestSeller: true,
         isFeatured: true
@@ -19,19 +19,19 @@ const PRODUCT_DATA = [
         price: 74.00,
         visual: '<img src="./pants.jpg" alt="Lounge Pants" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: ["Lavender", "Cream", "Black"],
+        variants: ["White", "Lavender", "Black"],
         hasSizes: true,
         isBestSeller: false,
         isFeatured: true
     },
     {
         id: "b1",
-        name: "Lumina Lip Gloss (Moonlight Glow)",
+        name: "Lumina Lip Gloss",
         category: "beauty",
         price: 24.00,
         visual: '<img src="./lipgloss.jpg" alt="Lumina Lip Gloss" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: ["Dream Glow ✨", "Lavender Kiss 💜", "Moonlight Shine ⭐"],
+        variants: ["Dreamy Clear ✨", "Sheer Lavender Tint 💜", "Shimmery Gloss ⭐"],
         hasSizes: false,
         isBestSeller: true,
         isFeatured: false
@@ -42,8 +42,8 @@ const PRODUCT_DATA = [
         category: "beauty",
         price: 95.00,
         visual: '<img src="./perfume.jpg" alt="Stardust Perfume" style="width:100%; height:100%; object-fit:cover;">',
-        badge: "Coming Soon",
-        variants: ["Lavender", "Cream", "Black"],
+        badge: "",
+        variants: ["Crossbody", "Stars Align", "Constellation"],
         hasSizes: false,
         isBestSeller: false,
         isFeatured: true
@@ -55,19 +55,19 @@ const PRODUCT_DATA = [
         price: 16.00,
         visual: '<img src="./scrunchie.jpg" alt="Lumina Scrunchie" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: ["Lavender", "Cream", "Black"],
+        variants: ["White", "Lavender", "Black"],
         hasSizes: false,
         isBestSeller: false,
         isFeatured: false
     },
     {
         id: "a2",
-        name: "Eight-Point Celestial Ring",
+        name: "Eight-Point Celestial Jewelry",
         category: "accessories",
         price: 120.00,
-        visual: '<img src="./ring.jpg" alt="Celestial Ring" style="width:100%; height:100%; object-fit:cover;">',
+        visual: '<img src="./ring.jpg" alt="Celestial Jewelry" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: ["Ring (M)", "Ring (W)", "Necklace (M)", "Necklace (W)", "Bracelet (M)", "Bracelet (W)", "Earrings", "Nose Stud"],
+        variants: ["Ring", "Necklace", "Bracelet"],
         hasSizes: false,
         isBestSeller: true,
         isFeatured: false
@@ -79,7 +79,7 @@ const PRODUCT_DATA = [
         price: 28.00,
         visual: '<img src="./notebook.jpg" alt="Lumina Notebook" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: ["Lavender", "Cream", "Black"],
+        variants: ["Lavender", "White", "Beige"],
         hasSizes: false,
         isBestSeller: true,
         isFeatured: false
@@ -91,7 +91,7 @@ const PRODUCT_DATA = [
         price: 14.00,
         visual: '<img src="./pen.jpg" alt="Cosmic Pens" style="width:100%; height:100%; object-fit:cover;">',
         badge: "",
-        variants: ["Lavender", "Cream", "Black"],
+        variants: ["Lavender", "White", "Beige"],
         hasSizes: false,
         isBestSeller: false,
         isFeatured: true
@@ -122,62 +122,39 @@ const PRODUCT_DATA = [
 
 let shoppingCart = [];
 
-// --- Lifecycle Initialization Engine ---
 document.addEventListener("DOMContentLoaded", () => {
     initializeHomeGridDisplay();
     setupInterfaceEventHandlers();
-    
-    // Check url on open, if empty set default home hash
-    if (!window.location.hash) {
-        window.location.hash = '#home';
-    } else {
-        handleUrlRoutingCheck();
-    }
+    handleUrlRoutingCheck();
 });
 
-// --- Dynamic Grid Rendering Protocols ---
 function createProductCardMarkup(product) {
     const isSoon = product.badge === "Coming Soon";
     
-    let optionsRowHtml = "";
-    if (!isSoon) {
-        if (product.hasSizes) {
-            // Clothes: Size and Color side-by-side
-            optionsRowHtml = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 0.5rem; width: 100%;">
-                    <select id="size-${product.id}" style="padding: 0.25rem; font-family: inherit; font-size: 0.75rem; width: 100%;">
-                        <option value="S">Size: S</option>
-                        <option value="M" selected>Size: M</option>
-                        <option value="L">Size: L</option>
-                        <option value="XL">Size: XL</option>
-                    </select>
-                    <select id="variant-${product.id}" style="padding: 0.25rem; font-family: inherit; font-size: 0.75rem; width: 100%;">
-                        ${product.variants ? product.variants.map(opt => `<option value="${opt}">${opt}</option>`).join('') : '<option value="Default">Default</option>'}
-                    </select>
-                </div>
-            `;
-        } else if (product.variants) {
-            // No sizes: Color and Quantity side-by-side
-            optionsRowHtml = `
-                <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 6px; margin-bottom: 0.5rem; width: 100%;">
-                    <select id="variant-${product.id}" style="padding: 0.25rem; font-family: inherit; font-size: 0.75rem; width: 100%;">
-                        ${product.variants.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-                    </select>
-                    <select id="qty-${product.id}" style="padding: 0.25rem; font-family: inherit; font-size: 0.75rem; width: 100%;">
-                        <option value="1">Qty: 1</option>
-                        <option value="2">Qty: 2</option>
-                        <option value="3">Qty: 3</option>
-                        <option value="4">Qty: 4</option>
-                        <option value="5">Qty: 5</option>
-                    </select>
-                </div>
-            `;
-        }
+    let sizeSelectorHtml = "";
+    if (product.hasSizes && !isSoon) {
+        sizeSelectorHtml = `
+            <select id="size-${product.id}" style="margin-bottom: 0.5rem; padding: 0.25rem; font-family: inherit; font-size: 0.75rem; width: 100%;">
+                <option value="S">Size: S</option>
+                <option value="M" selected>Size: M</option>
+                <option value="L">Size: L</option>
+                <option value="XL">Size: XL</option>
+            </select>
+        `;
+    }
+
+    let variantSelectorHtml = "";
+    if (product.variants && !isSoon) {
+        variantSelectorHtml = `
+            <select id="variant-${product.id}" style="margin-bottom: 0.5rem; padding: 0.25rem; font-family: inherit; font-size: 0.75rem; width: 100%;">
+                ${product.variants.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+            </select>
+        `;
     }
 
     const actionBtnHtml = isSoon 
         ? `<button class="btn btn-secondary" disabled style="width:100%; font-size:0.7rem;">Awaiting Drop</button>`
-        : `${optionsRowHtml}<button class="btn btn-primary" onclick="addProductToCart('${product.id}')" style="width:100%; font-size:0.7rem;">Add to Cart</button>`;
+        : `${sizeSelectorHtml}${variantSelectorHtml}<button class="btn btn-primary" onclick="addProductToCart('${product.id}')" style="width:100%; font-size:0.7rem;">Add to Cart</button>`;
         
     return `
         <div class="product-card" data-id="${product.id}">
@@ -209,12 +186,7 @@ function initializeHomeGridDisplay() {
     if(bestTarget) bestTarget.innerHTML = bestItems.map(createProductCardMarkup).join('');
 }
 
-// --- App Navigation Routing Logic ---
 function navigateTo(targetRoute) {
-    window.location.hash = targetRoute;
-}
-
-function renderPageView(targetRoute) {
     const routesMap = {
         'home': { type: 'static', elementId: 'page-home' },
         'about': { type: 'static', elementId: 'page-about' },
@@ -229,33 +201,25 @@ function renderPageView(targetRoute) {
 
     const targetConfig = routesMap[targetRoute] || routesMap['home'];
 
-    document.querySelectorAll('.page-view').forEach(view => {
-        view.classList.remove('active');
-    });
+    document.querySelectorAll('.page-view').forEach(view => view.classList.remove('active'));
     
     if (targetConfig.type === 'static') {
-        const targetEl = document.getElementById(targetConfig.elementId);
-        if (targetEl) targetEl.classList.add('active');
+        document.getElementById(targetConfig.elementId).classList.add('active');
     } else if (targetConfig.type === 'catalog') {
-        const titleEl = document.getElementById('current-catalog-title');
-        const descEl = document.getElementById('current-catalog-desc');
-        const containerEl = document.getElementById('catalog-products-container');
-        
-        if (titleEl) titleEl.innerText = targetConfig.title;
-        if (descEl) descEl.innerText = targetConfig.desc;
+        document.getElementById('current-catalog-title').innerText = targetConfig.title;
+        document.getElementById('current-catalog-desc').innerText = targetConfig.desc;
         
         const filteredProducts = PRODUCT_DATA.filter(p => p.category === targetRoute);
-        if (containerEl) containerEl.innerHTML = filteredProducts.map(createProductCardMarkup).join('');
+        document.getElementById('catalog-products-container').innerHTML = filteredProducts.map(createProductCardMarkup).join('');
         
-        const catalogPageEl = document.getElementById('page-catalog');
-        if (catalogPageEl) catalogPageEl.classList.add('active');
+        document.getElementById('page-catalog').classList.add('active');
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.remove('active');
-        if(link.getAttribute('onclick') && link.getAttribute('onclick').includes(`'${targetRoute}'`)) {
+        if(link.getAttribute('href') === `#${targetRoute}`) {
             link.classList.add('active');
         }
     });
@@ -264,7 +228,6 @@ function renderPageView(targetRoute) {
     document.querySelector('.mobile-nav-toggle').classList.remove('open');
 }
 
-// --- Dynamic Shopping Cart Transaction Handlers ---
 function toggleCart() {
     document.querySelector('.cart-drawer').classList.toggle('open');
     document.querySelector('.cart-drawer-overlay').classList.toggle('open');
@@ -275,44 +238,34 @@ function addProductToCart(productId) {
     if (!matchItem) return;
 
     let selectedSize = "";
-    if (matchItem.hasSizes) {
-        const sizeSelectElement = document.getElementById(`size-${productId}`);
-        if (sizeSelectElement) selectedSize = sizeSelectElement.value;
+    const sizeSelectElement = document.getElementById(`size-${productId}`);
+    if (sizeSelectElement) {
+        selectedSize = sizeSelectElement.value;
     }
 
     let selectedVariant = "";
     const variantSelectElement = document.getElementById(`variant-${productId}`);
-    if (variantSelectElement) selectedVariant = variantSelectElement.value;
-
-    let parsedQty = 1;
-    if (!matchItem.hasSizes) {
-        const qtySelectElement = document.getElementById(`qty-${productId}`);
-        if (qtySelectElement) {
-            parsedQty = parseInt(qtySelectElement.value) || 1;
-            qtySelectElement.value = "1"; // Reset card back to 1
-        }
+    if (variantSelectElement) {
+        selectedVariant = variantSelectElement.value;
     }
 
-    let displayName = matchItem.name;
-    if (selectedSize && selectedVariant) {
-        displayName += ` (${selectedVariant} / ${selectedSize})`;
-    } else if (selectedSize) {
-        displayName += ` (${selectedSize})`;
-    } else if (selectedVariant) {
-        displayName += ` (${selectedVariant})`;
-    }
+    let labelDetails = [];
+    if (selectedVariant) labelDetails.push(selectedVariant);
+    if (selectedSize) labelDetails.push(selectedSize);
 
+    const displayName = labelDetails.length > 0 ? `${matchItem.name} (${labelDetails.join(' / ')})` : matchItem.name;
     const cartItemId = `${productId}-${selectedSize}-${selectedVariant}`;
+
     const existingRecord = shoppingCart.find(item => item.cartItemId === cartItemId);
 
     if (existingRecord) {
-        existingRecord.quantity += parsedQty;
+        existingRecord.quantity += 1;
     } else {
         shoppingCart.push({ 
             cartItemId: cartItemId,
             product: matchItem, 
             displayName: displayName,
-            quantity: parsedQty 
+            quantity: 1 
         });
     }
 
@@ -320,19 +273,6 @@ function addProductToCart(productId) {
     
     document.querySelector('.cart-drawer').classList.add('open');
     document.querySelector('.cart-drawer-overlay').classList.add('open');
-}
-
-function changeCartItemQty(cartItemId, amount) {
-    const targetItem = shoppingCart.find(item => item.cartItemId === cartItemId);
-    if (!targetItem) return;
-
-    targetItem.quantity += amount;
-
-    if (targetItem.quantity <= 0) {
-        removeCartLineItem(cartItemId);
-    } else {
-        refreshCartDisplayState();
-    }
 }
 
 function removeCartLineItem(cartItemId) {
@@ -360,30 +300,15 @@ function refreshCartDisplayState() {
     container.innerHTML = shoppingCart.map(lineItem => {
         const cost = lineItem.product.price * lineItem.quantity;
         calculatedTotal += cost;
-        
-        // Items with sizes get interactive +/- buttons in the tray
-        let qtyControlHtml = `Qty: ${lineItem.quantity}`;
-        if (lineItem.product.hasSizes) {
-            qtyControlHtml = `
-                <div style="display: inline-flex; align-items: center; border: 1px solid #e2d4f0; border-radius: 4px; overflow: hidden; background: #fff; margin-top: 2px;">
-                    <button onclick="changeCartItemQty('${lineItem.cartItemId}', -1)" style="border: none; background: none; padding: 2px 8px; cursor: pointer; font-weight: bold; color: #7E57C2;">-</button>
-                    <span style="font-size: 0.8rem; padding: 0 4px; min-width: 14px; text-align: center;">${lineItem.quantity}</span>
-                    <button onclick="changeCartItemQty('${lineItem.cartItemId}', 1)" style="border: none; background: none; padding: 2px 8px; cursor: pointer; font-weight: bold; color: #7E57C2;">+</button>
-                </div>
-            `;
-        }
-
         return `
-            <div class="cart-item-row" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+            <div class="cart-item-row">
                 <div style="width: 50px; height: 50px; background: #F9F8FA; overflow:hidden; display:flex; align-items:center; justify-content:center;">
                     ${lineItem.product.visual}
                 </div>
                 <div class="cart-item-details" style="flex:1; padding-left:0.5rem;">
-                    <h4 style="font-size:0.85rem; line-height:1.2; margin: 0;">${lineItem.displayName}</h4>
-                    <p style="font-size:0.75rem; margin: 0.2rem 0 0 0; display: flex; align-items: center; gap: 6px;">
-                        ${qtyControlHtml} &times; $${lineItem.product.price.toFixed(2)}
-                    </p>
-                    <button class="remove-item-btn" onclick="removeCartLineItem('${lineItem.cartItemId}')" style="margin-top: 2px;">Remove</button>
+                    <h4 style="font-size:0.85rem; line-height:1.2;">${lineItem.displayName}</h4>
+                    <p style="font-size:0.75rem; margin-top:0.2rem;">Qty: ${lineItem.quantity} &times; $${lineItem.product.price.toFixed(2)}</p>
+                    <button class="remove-item-btn" onclick="removeCartLineItem('${lineItem.cartItemId}')">Remove</button>
                 </div>
                 <div style="font-size: 0.85rem; font-weight:500;">
                     $${cost.toFixed(2)}
@@ -411,9 +336,8 @@ function setupInterfaceEventHandlers() {
 function handleUrlRoutingCheck() {
     const currentHash = window.location.hash.replace('#', '');
     if(currentHash) {
-        renderPageView(currentHash);
+        navigateTo(currentHash);
     }
 }
 
-// Watch for manual URL changes and hash navigation actions
 window.addEventListener('hashchange', handleUrlRoutingCheck);
