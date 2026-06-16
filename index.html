@@ -3,103 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaf Theme Shop</title>
+    <title>Lumina</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Base Styling & Pretty Leaf Theme */
+        /* --- Lumina Core Theme Variables --- */
         :root {
+            --accent-amethyst: #9b5de5;
+            --text-muted-stardust: #8e9aaf;
+            --text-stellar-dark: #212529;
+            --bg-cosmic-light: #f8f9fa;
+            --border-stardust: #e2e8f0;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             --leaf-green: #4CAF50;
-            --soft-green: #E8F5E9;
-            --dark-green: #2E7D32;
-            --text-color: #333;
-            --border-color: #C8E6C9;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #FAFAFA;
-            color: var(--text-color);
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-cosmic-light);
+            color: var(--text-stellar-dark);
             margin: 0;
             padding: 20px;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
+            position: relative;
         }
 
-        header {
+        /* --- Intro Opening Text & Animated Leaves --- */
+        .opening-header {
             text-align: center;
-            margin-bottom: 30px;
+            padding: 60px 20px;
+            position: relative;
         }
 
-        h1 {
-            color: var(--dark-green);
-            font-size: 2.5rem;
-            margin-bottom: 5px;
+        .opening-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: var(--text-stellar-dark);
         }
 
-        .leaf-icon {
-            font-size: 1.5rem;
+        .opening-header p {
+            font-size: 0.9rem;
+            color: var(--text-muted-stardust);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Pretty Floating Leaves Structure */
+        .leaf-decor {
+            position: absolute;
+            pointer-events: none;
             color: var(--leaf-green);
+            opacity: 0.15;
+            font-size: 1.5rem;
+            animation: floatLeaves 6s ease-in-out infinite alternate;
+        }
+        .leaf-1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .leaf-2 { top: 20%; right: 8%; animation-delay: 1.5s; }
+        .leaf-3 { bottom: 10%; left: 12%; animation-delay: 3s; }
+
+        @keyframes floatLeaves {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-15px) rotate(15deg); }
         }
 
-        /* Working Navigation Tabs */
-        .tabs {
+        /* --- Your Exact Checkout Cart Drawer Tab Styling --- */
+        .tabs-container {
             display: flex;
-            justify-content: center;
-            border-bottom: 2px solid var(--border-color);
-            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-stardust);
+            margin-bottom: 40px;
         }
 
-        .tab-btn {
+        .cart-tab {
+            flex: 1;
             background: none;
             border: none;
-            padding: 12px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            padding: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             cursor: pointer;
-            color: #666;
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
+            color: var(--text-muted-stardust);
+            border-bottom: 2px solid transparent;
+            transition: var(--transition-smooth);
+            text-align: center;
         }
 
-        .tab-btn:hover {
-            color: var(--dark-green);
+        .cart-tab.active {
+            color: var(--accent-amethyst);
+            border-bottom: 2px solid var(--accent-amethyst);
         }
 
-        .tab-btn.active {
-            color: var(--dark-green);
-            border-bottom: 3px solid var(--leaf-green);
+        .cart-tab:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
         }
 
-        .tab-content {
+        .cart-tab-content {
             display: none;
+            flex: 1;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        .tab-content.active {
-            display: block;
+        .cart-tab-content.active {
+            display: flex;
         }
 
-        /* Product Grid and Card Design */
+        /* --- Product Grid & Action Overlay --- */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
         .product-card {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            background: #ffffff;
+            border: 1px solid var(--border-stardust);
+            padding: 25px;
+            border-radius: 4px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
 
         .product-title {
-            font-size: 1.3rem;
-            color: var(--dark-green);
-            margin: 0 0 10px 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0 0 8px 0;
+        }
+
+        .product-price {
+            font-size: 0.85rem;
+            color: var(--text-muted-stardust);
+            margin-bottom: 20px;
+        }
+
+        /* --- Dropdown Form & Input Aesthetics Layout --- */
+        .product-action-overlay {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .option-field {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .option-field label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+            color: var(--text-muted-stardust);
+        }
+
+        .product-action-overlay select, 
+        .product-action-overlay input {
+            background: #ffffff;
+            color: var(--text-stellar-dark);
+            border-radius: 2px;
+            border: 1px solid var(--border-stardust);
+            padding: 10px 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+            transition: var(--transition-smooth);
+        }
+
+        .product-action-overlay select:focus, 
+        .product-action-overlay input:focus {
+            border-color: var(--accent-amethyst);
+        }
+
+        .action-submit-btn {
+            background-color: var(--text-stellar-dark);
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition-smooth);
+        }
+
+        .action-submit-btn:hover {
+            background-color: var(--accent-amethyst);
+        }
+
+        /* --- Cart Container View Aesthetics --- */
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-stardust);
+        }
+
+        .cart-item-info h4 {
+            margin: 0 0 5px 0;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .cart-item-info p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: var(--text-muted-stardust);
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-qty-box {
+            width: 55px;
+            text-align: center;
+            padding: 6px;
+            border: 1px solid var(--border-stardust);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        .cart-qty-box:focus {
+            border-color: var(--accent-amethyst);
+            outline: none;
+        }
+
+        .cart-remove-icon {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .cart-summary-total {
+            text-align: right;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-top: 30px;
+            color: var(--text-stellar-dark);
+        }
+
+        .cart-empty-state {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted-stardust);
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="leaf-decor leaf-1">🍃</div>
+    <div class="leaf-decor leaf-2">🌿</div>
+    <div class="leaf-decor leaf-3">🍃</div>
+
+    <header class="opening-header">
+        <h1>Lumina</h1>
+        <p>A Beautifully Curated Collection</p>
+    </header>
+
+    <div class="tabs-container">
+        <button class="cart-tab active" onclick="switchTab(event, 'shop-view')">Collection</button>
+        <button class="cart-tab" onclick="switchTab(event, 'cart-view')">Bag (<span id="bag-count">0</span>)</button>
+    </div>
+
+    <div id="shop-view" class="cart-tab-content active">
+        <div class="product-grid">
+
+            <div class
