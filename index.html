@@ -3,32 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina Celestial Collection</title>
+    <title>Lumina | Explore Your Glow</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <div class="leaf-decor leaf-1">🍃</div>
+    <div class="leaf-decor leaf-2">🌿</div>
+    <div class="leaf-decor leaf-3">🍃</div>
 
     <header class="app-header">
         <div class="header-container">
             <div class="logo" onclick="navigateTo('home')">LUMINA</div>
             
             <nav class="nav-menu">
-                <a href="#home" class="nav-link" onclick="navigateTo('home')">Home</a>
-                <a href="#fashion" class="nav-link" onclick="navigateTo('fashion')">Fashion</a>
-                <a href="#beauty" class="nav-link" onclick="navigateTo('beauty')">Beauty</a>
-                <a href="#accessories" class="nav-link" onclick="navigateTo('accessories')">Accessories</a>
-                <a href="#school-supplies" class="nav-link" onclick="navigateTo('school-supplies')">Supplies</a>
-                <a href="#self-care" class="nav-link" onclick="navigateTo('self-care')">Self-Care</a>
+                <button class="nav-link active" onclick="navigateTo('home')">Home</button>
+                <button class="nav-link" onclick="navigateTo('clothing')">Clothing</button>
+                <button class="nav-link" onclick="navigateTo('beauty')">Beauty</button>
+                <button class="nav-link" onclick="navigateTo('accessories')">Accessories</button>
+                <button class="nav-link" onclick="navigateTo('supplies')">Supplies</button>
+                <button class="nav-link" onclick="navigateTo('plushies')">Plushies</button>
+                <button class="nav-link" onclick="navigateTo('self-care')">Self-Care</button>
+                <button class="nav-link" onclick="navigateTo('about')">About Us</button>
+                <button class="nav-link" onclick="navigateTo('contact')">Contact</button>
             </nav>
 
             <div class="header-actions">
-                <button class="cart-toggle-btn" onclick="toggleCart()">
-                    Bag (<span class="cart-count">0</span>)
+                <button class="cart-toggle-btn" onclick="toggleCartDrawer()">
+                    <span class="bag-icon">👜</span>
+                    <span class="cart-count">0</span>
                 </button>
-                <div class="mobile-nav-toggle">
-                    <span></span><span></span><span></span>
-                </div>
             </div>
         </div>
     </header>
@@ -37,64 +42,130 @@
 
         <section id="page-home" class="page-view active">
             <div class="opening-hero">
-                <h1>LUMINA</h1>
-                <p>A beautifully curated collection of celestial items</p>
+                <h1>Explore your glow with lumina</h1>
+                <button class="explore-btn" onclick="navigateTo('clothing')">Explore Collections</button>
             </div>
 
-            <div class="home-section">
-                <h2>Featured Drops</h2>
-                <div id="featured-products-container" class="product-grid"></div>
-            </div>
-
-            <div class="home-section">
-                <h2>Best Sellers</h2>
-                <div id="best-sellers-container" class="product-grid"></div>
+            <div class="feed-section">
+                <h2>The Complete Catalog</h2>
+                <div id="global-feed-container" class="product-grid"></div>
             </div>
         </section>
 
-        <section id="page-catalog" class="page-view">
+        <section id="page-clothing" class="page-view">
             <div class="catalog-header">
-                <h1 id="current-catalog-title">Collection</h1>
-                <p id="current-catalog-desc">Explore our curated selections.</p>
+                <h2>Clothing Collection</h2>
+                <p>Premium modern streetwear engineered with ethereal details.</p>
             </div>
-            <div id="catalog-products-container" class="product-grid"></div>
+            <div id="clothing-container" class="product-grid"></div>
+        </section>
+
+        <section id="page-beauty" class="page-view">
+            <div class="catalog-header">
+                <h2>Beauty & Cosmetics</h2>
+                <p>Dreamy self-care pigments and stellar formulations.</p>
+            </div>
+            <div id="beauty-container" class="product-grid"></div>
+        </section>
+
+        <section id="page-accessories" class="page-view">
+            <div class="catalog-header">
+                <h2>Luxury Accessories</h2>
+                <p>Minimal statement accents and delicate finishes.</p>
+            </div>
+            <div id="accessories-container" class="product-grid"></div>
+        </section>
+
+        <section id="page-supplies" class="page-view">
+            <div class="catalog-header">
+                <h2>School Supplies & Stationery</h2>
+                <p>Elevated productivity planners and creative tools.</p>
+            </div>
+            <div id="supplies-container" class="product-grid"></div>
+        </section>
+
+        <section id="page-plushies" class="page-view">
+            <div class="catalog-header">
+                <h2>Collectible Plushies</h2>
+                <p>Meet Lumi and your soft celestial desk guides.</p>
+            </div>
+            <div id="plushies-container" class="product-grid"></div>
+        </section>
+
+        <section id="page-self-care" class="page-view">
+            <div class="catalog-header">
+                <h2>Self-Care Rituals</h2>
+                <p>Calming tools engineered to elevate living environments.</p>
+            </div>
+            <div id="self-care-container" class="product-grid"></div>
         </section>
 
         <section id="page-about" class="page-view">
-            <div class="static-container">
+            <div class="info-card-layout">
                 <h2>Our Story</h2>
-                <p>Engineered with ethereal detail and minimalist aesthetics.</p>
+                <p>Lumina was proudly founded by <strong>Paris Botchway</strong> and supported by <strong>Maame Akua Peace Konadu Nyarko</strong> at just 12 years old. Built on the dream of creating an upscale, curated space that brings celestial aesthetics, elegant streetwear, and beautiful self-care rituals straight to your lifestyle.</p>
             </div>
         </section>
 
         <section id="page-contact" class="page-view">
-            <div class="static-container">
-                <h2>Get In Touch</h2>
-                <p>Reach out to the stellar support crew at support@lumina.com</p>
+            <div class="info-card-layout">
+                <h2>Contact Us</h2>
+                <p class="support-email-text">Direct Inquiries: paris.botchway@gmail.com</p>
+                
+                <form id="contact-support-form" onsubmit="handleSupportSubmission(event)">
+                    <div class="form-group">
+                        <label for="contact-email">Your Email Address</label>
+                        <input type="email" id="contact-email" required placeholder="name@domain.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-message">Describe Your Issue</label>
+                        <textarea id="contact-message" rows="5" required placeholder="Type your message details here..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit-btn">Send Message</button>
+                </form>
             </div>
         </section>
 
     </main>
 
-    <div class="cart-drawer-overlay" onclick="toggleCart()"></div>
-    <div class="cart-drawer">
+    <div id="cart-overlay" class="cart-drawer-overlay" onclick="toggleCartDrawer()"></div>
+    <aside id="cart-drawer-panel" class="cart-drawer">
         <div class="cart-drawer-header">
-            <h3>Your Bag</h3>
-            <button class="close-drawer-btn" onclick="toggleCart()">&times;</button>
+            <h3>Your Basket</h3>
+            <button class="close-drawer-btn" onclick="toggleCartDrawer()">&times;</button>
         </div>
 
-        <div id="cart-items" class="cart-items-body">
-            <p class="empty-cart-text">Your collection is currently empty.</p>
+        <div id="cart-items-tray" class="cart-items-body">
+            <p class="empty-cart-text">Your collection is currently empty. 🍃</p>
         </div>
 
         <div class="cart-drawer-footer">
             <div class="subtotal-row">
                 <span>Subtotal</span>
-                <span id="cart-subtotal-val">$0.00</span>
+                <span id="cart-subtotal-display">$0.00</span>
             </div>
-            <button class="checkout-btn" disabled>Proceed to Checkout</button>
+
+            <div id="checkout-address-section" class="checkout-form-overlay">
+                <div class="form-group">
+                    <label>Shipping Country</label>
+                    <select id="checkout-country" class="input-aesthetic">
+                        <option value="Ghana">Ghana</option>
+                        <option value="United States">United States</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Nigeria">Nigeria</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address</label>
+                    <input type="text" id="checkout-address" class="input-aesthetic" placeholder="Street line, City, Region" required>
+                </div>
+                <button type="button" class="action-confirm-btn" onclick="submitFinalOrder()">Submit Delivery Details</button>
+            </div>
+
+            <button id="main-purchase-btn" class="checkout-btn" disabled onclick="revealCheckoutForm()">Purchase</button>
         </div>
-    </div>
+    </aside>
 
     <script src="app.js"></script>
 </body>
