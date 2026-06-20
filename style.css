@@ -1,3 +1,4 @@
+
 /* --- Lumina Brand Color Token Database --- */
 :root {
     --accent-amethyst: #9b5de5;
@@ -68,7 +69,6 @@ body {
     gap: 0.5rem;
 }
 
-/* Your exact requested navigation/checkout tab text choices */
 .nav-link {
     background: none;
     border: none;
@@ -125,27 +125,48 @@ body {
     display: block;
 }
 
-/* --- Opening Section & Hero UI --- */
-.opening-hero {
+/* --- Updated Starry Night Constellation Hero UI --- */
+.opening-hero.constellation-theme {
     text-align: center;
-    padding: 6rem 2rem;
-    background: linear-gradient(135deg, #ffffff 0%, #f3edf8 100%);
+    padding: 7.5rem 2rem;
+    background: radial-gradient(circle at center, #1a1636 0%, #0d0b18 100%);
     border-radius: 4px;
     margin-bottom: 3rem;
-    border: 1px solid var(--border-stardust);
+    border: 1px solid rgba(155, 93, 229, 0.2);
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.6);
 }
 
-.opening-hero h1 {
+/* Simulated twinkling starry background glow */
+.star-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
+    background-position: 0 0, 40px 60px, 130px 270px;
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.opening-hero.constellation-theme h1 {
     font-size: 2.2rem;
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.5rem;
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(155, 93, 229, 0.6);
+    position: relative;
+    z-index: 2;
 }
 
 .explore-btn {
-    background: var(--text-stellar-dark);
-    color: #ffffff;
+    background: #ffffff;
+    color: #0d0b18;
     border: none;
     padding: 1rem 2rem;
     font-family: 'Montserrat', sans-serif;
@@ -156,11 +177,16 @@ body {
     cursor: pointer;
     transition: var(--transition-smooth);
     border-radius: 2px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .explore-btn:hover {
     background: var(--accent-amethyst);
+    color: #ffffff;
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(155, 93, 229, 0.4);
 }
 
 .catalog-header {
@@ -242,7 +268,6 @@ body {
     border-top: 1px solid var(--border-stardust);
 }
 
-/* Dropdown Form Styling Rules */
 .product-action-overlay select,
 .product-action-overlay input {
     background: #ffffff;
@@ -337,6 +362,7 @@ body {
     font-size: 0.9rem;
     line-height: 1.8;
     color: #4a5568;
+    margin-bottom: 1.5rem;
 }
 
 .support-email-text {
@@ -462,7 +488,6 @@ body {
     letter-spacing: 0.05em;
 }
 
-/* Tray Row Layout Aesthetics */
 .cart-item-row {
     display: flex;
     gap: 12px;
@@ -538,7 +563,6 @@ body {
     cursor: not-allowed;
 }
 
-/* Dynamic Checkout Dropdown Slide-In Form */
 .checkout-form-overlay {
     display: none;
     background: #ffffff;
@@ -559,7 +583,7 @@ body {
     width: 100%;
     padding: 0.75rem;
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.70rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;

@@ -121,11 +121,9 @@ function createProductCardMarkup(product) {
         `;
     }
 
-    // Determine layout columns based on product features
     let interactiveSelectorsForm = "";
     if (!isSoon) {
         if (product.sizes && product.variants) {
-            // Sizable Items Rule: Size and Color drop side-by-side
             interactiveSelectorsForm = `
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 0.5rem; width: 100%;">
                     ${sizingLayoutHtml}
@@ -133,7 +131,6 @@ function createProductCardMarkup(product) {
                 </div>
             `;
         } else if (product.variants) {
-            // Standard Items Rule: Color drops next to the Quantity select box
             interactiveSelectorsForm = `
                 <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 6px; margin-bottom: 0.5rem; width: 100%;">
                     ${variantLayoutHtml}
@@ -145,7 +142,6 @@ function createProductCardMarkup(product) {
                 </div>
             `;
         } else {
-            // Items without variants Rule: Full row clean Quantity box drop
             interactiveSelectorsForm = `
                 <div style="display: grid; grid-template-columns: 1fr; gap: 6px; margin-bottom: 0.5rem; width: 100%;">
                     <select id="qty-${product.id}">
@@ -182,11 +178,9 @@ function createProductCardMarkup(product) {
 }
 
 function renderCatalogs() {
-    // 1. Populate full catalog timeline downwards in the main Home view
     const globalFeed = document.getElementById("global-feed-container");
     if (globalFeed) globalFeed.innerHTML = PRODUCT_DATA.map(createProductCardMarkup).join('');
 
-    // 2. Separate categorizations by explicit tabs natively
     const categories = ['clothing', 'beauty', 'accessories', 'supplies', 'plushies', 'self-care'];
     categories.forEach(cat => {
         const targetNode = document.getElementById(`${cat}-container`);
@@ -205,7 +199,6 @@ function navigateTo(targetTabId) {
     const activeView = document.getElementById(`page-${targetTabId}`);
     if (activeView) activeView.classList.add('active');
 
-    // Highlight target link cleanly
     const triggerBtn = Array.from(document.querySelectorAll('.nav-link'))
                             .find(btn => btn.getAttribute('onclick').includes(`'${targetTabId}'`));
     if (triggerBtn) triggerBtn.classList.add('active');
@@ -217,8 +210,6 @@ function navigateTo(targetTabId) {
 function toggleCartDrawer() {
     document.getElementById('cart-drawer-panel').classList.toggle('open');
     document.getElementById('cart-overlay').classList.toggle('open');
-    
-    // Hide checkout details panel on close toggle to maintain a clean slate
     document.getElementById('checkout-address-section').classList.remove('active');
 }
 
@@ -238,7 +229,7 @@ function addProductToCart(productId) {
     const qtyEl = document.getElementById(`qty-${productId}`);
     if (qtyEl) {
         orderedQuantity = parseInt(qtyEl.value) || 1;
-        qtyEl.value = "1"; // Reset element index drop back to 1
+        qtyEl.value = "1";
     }
 
     let descriptors = [];
@@ -263,7 +254,6 @@ function addProductToCart(productId) {
 
     refreshCartDisplayState();
     
-    // Open the drawer on add
     document.getElementById('cart-drawer-panel').classList.add('open');
     document.getElementById('cart-overlay').classList.add('open');
 }
@@ -307,7 +297,6 @@ function refreshCartDisplayState() {
         const entryTotal = lineItem.product.price * lineItem.quantity;
         workingSubtotal += entryTotal;
 
-        // Tray Rules: Sizable/Variant clothes get clear increment controls, others show standard text count layout
         let controlLayout = ``;
         if (lineItem.product.sizes) {
             controlLayout = `
@@ -358,12 +347,11 @@ function submitFinalOrder() {
         return;
     }
 
-    // Parse items description for summary alerts
     const itemSummaryList = shoppingCart.map(item => `${item.quantity}x ${item.displayName}`).join("\n - ");
 
     const notificationPayload = `
         === NEW ORDER NOTIFICATION ===
-        Target Notification: paris.botchway@gmail.com
+        Target Notification: parisbotchway@gmail.com
         
         Shipping Country Destination: ${selectedCountry}
         Delivery Address Coordinates: ${typedAddress}
@@ -377,7 +365,6 @@ function submitFinalOrder() {
     console.log(notificationPayload);
     alert(`Order Confirmed!\n\nA notification payload has been processed to your admin records for verification.`);
     
-    // Wipe shopping metrics back to initial state setup
     shoppingCart = [];
     refreshCartDisplayState();
     toggleCartDrawer();
@@ -389,6 +376,6 @@ function handleSupportSubmission(event) {
     const sourceUserEmail = document.getElementById("contact-email").value;
     const clearMessageText = document.getElementById("contact-message").value;
 
-    alert(`Thank you!\nYour ticket has been flagged. A logging record notification copy has been transmitted directly to paris.botchway@gmail.com for tracking resolution.`);
+    alert(`Thank you!\nYour ticket has been flagged. A logging record notification copy has been transmitted directly to parisbotchway@gmail.com for tracking resolution.`);
     document.getElementById("contact-support-form").reset();
 }
